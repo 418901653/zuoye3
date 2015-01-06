@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+	          body{padding: 20px}
+	    #container{
+                   width: 640px;
+                   height: 360px;
+                   border: 3px solid #333;
+                   overflow: hidden;
+                   position: relative;
+	              }
+	       #images{
+                   width: 4480px;
+                   height: 360px;
+                   position: absolute;
+                   z-index: 1;
+	              }
+	   #images img{float: left;}
+	      #buttons{
+                   width: 100px;
+                   height: 10px;
+                   position: absolute;
+                   z-index: 2;
+                   bottom: 20px;
+                   left: 250px;
+	              }
+	 #buttons span{
+                   width: 10px;
+                   height: 10px;
+                   border: 1px solid #fff;
+                   border-radius: 50%;
+                   cursor: pointer;
+                   float: left;
+                   margin-right: 5px;
+                   background: #333;   
+	              }
+	  #buttons .on{background: orange;}   
+	        .arrow{
+	        	      top: 180px;
+	        	      width: 40px;
+	        	      height: 40px;
+	        	      background-color: rgba(0,0,0,.3);
+	        	      color: #fff;
+	        	      position: absolute;
+	        	      z-index: 2;
+                  cursor: pointer;
+                  display: none;
+                  line-height: 39px
+                  text-align:center;
+                  font-size: 36px;
+                  font-weight: bold;
+	              }
+	    .arr:hover{background-color: rgba(0,0,0,.7)}
+	    #container:hover .arrow{display: block;}
+	    #prev{left: 20px}
+	    #next{right: 20px}                             
+	</style>
+	<script>
+     window.onload = function(){
+         function byId(id){return document.getElementById(id)}
+         var container = byId("container");
+         var images = byId("images");
+         var buttons = byId("buttons").getElementsByTagName("span");
+         var prev = byId("prev");
+         var next = byId("next");
+         var index = 1;
+         var Timer = setInterval(play,5000);
+         function Click(number){
+                                var newleft = parseInt(images.style.left) + number;
+                                images.style.left = newleft + "px";
+                                if(newleft > 0){
+                                                   images.style.left = -2560 + "px"
+                                                  }
+                                if(newleft < -2560){
+                                                    images.style.left = 0 + "px"
+                                                   }                   
+                               }
+          function showbuttons(){
+                                 for(var i=0;i<buttons.length;i++){
+                                   if(buttons[i].className=="on"){
+                                       buttons[i].className="";
+                                       break;
+                                   }
+                                 }
+                                  buttons[index-1].className = "on";
+                                }                     
+         prev.onclick = function(){
+                if(index==1){index = 5}
+                  else{index -= 1}
+                showbuttons();    
+                Click(640);
+         }
+         next.onclick = function(){
+               if(index==5){index = 1}
+                else{index +=1}
+               showbuttons();   
+               Click(-640);
+         }
+         function play(){
+           images.style.left = parseInt(images.style.left) - 640 + "px";
+           if(parseInt(images.style.left) < -2560){
+             images.style.left = 0 + "px"
+           }
+           if(index==5){index = 1}
+            else{index +=1}
+           showbuttons();
+         }                          
+     }
+	</script>
+  </head>
+  <body>
+  	<div id="container">
+  		<div id="images" style="left:0px;">
+  			<img src="images/1.jpg" alt="1">
+  			<img src="images/2.jpg" alt="2">
+  			<img src="images/3.jpg" alt="3">
+  			<img src="images/4.jpg" alt="4">
+  			<img src="images/5.jpg" alt="5">
+  		</div>
+  		<div id="buttons">
+  			<span index="1" class="on"></span>
+  			<span index="2"></span>
+  			<span index="3"></span>
+  			<span index="4"></span>
+  			<span index="5"></span>
+  		</div>
+  		<a href="javascript:" id="prev" class="arrow"><</a>
+  		<a href="javascript:" id="next" class="arrow">></a>
+  	</div>
+  </body>
+</html>
